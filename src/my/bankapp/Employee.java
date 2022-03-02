@@ -1,80 +1,77 @@
 package my.bankapp;
 
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.io.Serializable;
 
-public class Employee {
+public class Employee implements Serializable {
     /**
      * Defined employee variables
      */
-    String employeeFirstName;
-    String employeeLastName;
-    int employeeIDNumber;
-    String employeeAddress;
+    private String employeeUsername;
+    private String employeePassword;
+    private String employeeFirstName;
+    private String employeeLastName;
+    private int employeeIDNumber;
+    private String employeeAddress;
 
-    void checkCustomerAccountBalance() {
-        Scanner employeeInput = new Scanner(System.in);
+    // Employee variable getters and setters
 
-        System.out.println("What customer are you looking to check? Please input their first name: ");
+    public String getEmployeeUsername()
+    {
+        return employeeUsername;
+    }
 
-        Customer customer = new Customer(); // Creates a customer object called from the customer class
-        customer.customerFirstName = employeeInput.nextLine();
+    public void setEmployeeUsername(String employeeUsername)
+    {
+        this.employeeUsername = employeeUsername;
+    }
 
-        System.out.println("What is the customer's last name: ");
-        customer.customerLastName = employeeInput.nextLine();
+    public String getEmployeePassword()
+    {
+        return employeePassword;
+    }
 
-        System.out.println("What would you like to check from " + customer.customerFirstName + customer.customerLastName +
-                "'s account? Type a number to input your choice. Would you like to" +
-                "\n1: Check their account information" + // Whether the account is ind or joint, username
-                "\n2: Check their account balances" + // Balance amount
-                "\n3: Check their personal information"); // Name, address
+    public void setEmployeePassword(String employeePassword)
+    {
+        this.employeePassword = employeePassword;
+    }
 
+    public String getEmployeeFirstName()
+    {
+        return employeeFirstName;
+    }
 
-        int employeeCustomerAccountChoice = employeeInput.nextInt();
+    public void setEmployeeFirstName(String employeeFirstName)
+    {
+        this.employeeFirstName = employeeFirstName;
+    }
 
-        switch (employeeCustomerAccountChoice) {
-            case 1:
-                System.out.println("What account information would you like to access?" +
-                        "\n1: User account type: individual or joint" +
-                        "\n2: Username");
-                int employeeCustomerInfoChoice = employeeInput.nextInt();
+    public String getEmployeeLastName()
+    {
+        return employeeLastName;
+    }
 
-                if (employeeCustomerInfoChoice == 1) {
-                    System.out.println(customer.customerFirstName + " " + customer.customerLastName + " has an account.");
-                } else if (employeeCustomerInfoChoice == 2) {
-                    System.out.println("customer.customerFirstName" + " " + customer.customerLastName + "'s username is " + customer.customerUserName);
-                } else {
-                    System.out.println("Invalid input.");
-                    try {
-                        employeeCustomerInfoChoice = employeeInput.nextInt();
-                    } catch (InputMismatchException errorHandler) {
-                        System.out.println("Invalid input.");
-                    }
-                }
-                    case 2:
-                        System.out.println("What account balances would you like to access?");
+    public void setEmployeeLastName(String employeeLastName)
+    {
+        this.employeeLastName = employeeLastName;
+    }
 
-                    case 3:
-                        System.out.println("What personal information would you like to access?");
+    public int getEmployeeIDNumber()
+    {
+        return employeeIDNumber;
+    }
 
-                    default:
-                        System.out.println("Invalid entry.");
+    public void setEmployeeIDNumber(int employeeIDNumber)
+    {
+        this.employeeIDNumber = employeeIDNumber;
+    }
 
-                }
-        }
-//
-//
-//
-//    }
-//
-//    checkCustomerAccountInfo()
-//    {
-//
-//    }
-//
-//    checkCustomerPersonalInfo
-//    {
-//
-//    }
+    public String getEmployeeAddress()
+    {
+        return employeeAddress;
+    }
 
-        }
+    public void setEmployeeAddress(String employeeAddress)
+    {
+        this.employeeAddress = employeeAddress;
+    }
+}

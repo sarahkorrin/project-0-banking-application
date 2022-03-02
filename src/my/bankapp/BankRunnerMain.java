@@ -7,6 +7,6 @@ public class BankRunnerMain
         MenuOptions mainMenuOptions = new MenuOptions();
         mainMenuOptions.welcomeMenu();
 
-        // Hello Revature :)
+        // Testing
     }
 }
