@@ -1,17 +1,26 @@
 package my.bankapp;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.HashMap;
+
 public class MenuOptions
 {
     CustomerOptionsMenu redirectsToCustomerAccountMenu = new CustomerOptionsMenu();
     BankManagerOptionsMenu employeeChecksCustomerAccount = new BankManagerOptionsMenu();
+    SerializationLoader loader = new SerializationLoader();
+    SerializationSaver saver = new SerializationSaver();
 
     // Welcome menu: asks the user if they are an employee or a customer
     // ADD TRY CATCH BLOCK
     void welcomeMenu()
     {
         System.out.println("Welcome to the bank. Are you an employee or a customer?");
+        System.out.println("(TESTING FEATURE) Type 'delete' to remove all accounts and transactions.");
 
-        String employeeOrCustomerChoice = InputHandler.stringInput();
+        String employeeOrCustomerChoice = InputExceptionHandler.stringInput();
 
 
         // User inputs that they are an employee
@@ -27,11 +36,34 @@ public class MenuOptions
             newOrExistingCustomerAccount();
         }
 
+        // TESTING FEATURE. REMOVE AT END!
+        else if (employeeOrCustomerChoice.equals("delete")) {
+            try
+            {
+                FileOutputStream customerApplications = new FileOutputStream("customer_applications.ser");
+                FileOutputStream customerAccounts = new FileOutputStream("existing_customers.ser");
+                FileOutputStream employeeAccounts = new FileOutputStream("existing_employees.ser");
+                FileOutputStream transactions = new FileOutputStream("transactions_log.ser");
+                customerApplications.flush();
+                customerAccounts.flush();
+                employeeAccounts.flush();
+                transactions.flush();
+                System.out.println("All accounts and transactions have been deleted.");
+            } catch (FileNotFoundException e)
+            {
+                e.printStackTrace();
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+        }
+
 
         // Invalid entry
         else
         {
             System.out.println("Invalid entry.");
+            welcomeMenu();
         }
     }
 
@@ -45,7 +77,7 @@ public class MenuOptions
                 "\n1. Create an account" +
                 "\n2. Login");
 
-        int createOrLogIn = InputHandler.intInput();
+        int createOrLogIn = InputExceptionHandler.intInput();
 
         // Calls the create a customer account method
         if (createOrLogIn == 1)
@@ -78,7 +110,7 @@ public class MenuOptions
                 "\n1. Create an account" +
                 "\n2. Login");
 
-        int createOrLogInEmployee = InputHandler.intInput();
+        int createOrLogInEmployee = InputExceptionHandler.intInput();
 
         // Calls the create an employee account method
         if (createOrLogInEmployee == 1)
@@ -94,7 +126,6 @@ public class MenuOptions
         }
 
 
-
         // Invalid input
         else
         {
@@ -103,62 +134,67 @@ public class MenuOptions
     }
 
 
-
     // Employee Login method
     // ADD TRY CATCH BLOCK
-    void employeeLogin()
+    private BankManager employeeLogin()
     {
-
-        System.out.println("Please input your employee username: ");
-        String employeeUsername = InputHandler.stringInput();
-
-        System.out.println("Please in put your employee password: ");
-        String employeePassword = InputHandler.stringInput();
-
-        // Scans to see if username and password are matches in the hashset
-        boolean checker = true;
-
-        while (checker)
+        BankManager employee = null;
+        HashMap<String, BankManager> existingBankManagers = loader.loadExistingBankManagers("existing_employees.ser");
+        if (existingBankManagers.isEmpty())
         {
-            if (checker = true)
-            {
-                employeeChecksCustomerAccount.checkCustomerAccountIdentifier();
-                checker = false;
-            }
-//            if (employeeUsername.equals(foundEmployeeUsername)
-//                    && employeePassword.equals(foundEmployeePassword)) {
-//                checker = false;
-//                employeeMenu();
-            else
-            {
-                System.out.println("Invalid username or password. Please try again.");
-            }
+            System.out.println("There are no employees.");
+            welcomeMenu();
+        } else
+        {
+            System.out.println("Please input your employee username: ");
+            String attemptedEmployeeUsername = InputExceptionHandler.stringInput();
+
+            System.out.println("Please in put your employee password: ");
+            String attemptedEmployeePassword = InputExceptionHandler.stringInput();
+
+
+            for (BankManager existingBankManager : existingBankManagers.values())
+                if (existingBankManager.getBankManagerUsername().equals(attemptedEmployeeUsername))
+                {
+                    if (existingBankManager.getBankManagerPassword().equals(attemptedEmployeePassword))
+                    {
+                        System.out.println("Login successful!");
+                        employee = existingBankManager;
+                        employeeChecksCustomerAccount.approveApplicationsOrCheckCustomerAccount(employee);
+                    } else
+                    {
+                        System.out.println("Sorry, your username or password is invalid.");
+                        welcomeMenu();
+                    }
+                }
         }
-
-
+        return employee;
     }
-
 
 
     // Employee create an account menu
     // ADD TRY CATCH BLOCK
     void employeeCreateAnAccount()
     {
-        BankManager bankManager = new BankManager();
+        BankManager employee = new BankManager();
 
         // Employee username
         System.out.println("Please input your desired username: ");
-        bankManager.setBankManagerUsername(InputHandler.stringInput());
+        employee.setBankManagerUsername(InputExceptionHandler.stringInput());
 
         // Employee password
         System.out.println("Please input your desired password: ");
-        bankManager.setBankManagerPassword(InputHandler.stringInput());
+        employee.setBankManagerPassword(InputExceptionHandler.stringInput());
 
         // Employee first and last name
         System.out.println("Please input your first name: ");
-        bankManager.setBankManagerFirstName(InputHandler.stringInput());
+        employee.setBankManagerFirstName(InputExceptionHandler.stringInput());
         System.out.println("Please input your last name: ");
-        bankManager.setBankManagerLastName(InputHandler.stringInput());
+        employee.setBankManagerLastName(InputExceptionHandler.stringInput());
+
+        HashMap<String, BankManager> existingBankManagers = loader.loadExistingBankManagers("existing_employees.ser");
+        existingBankManagers.put(employee.getBankManagerUsername(), employee);
+        saver.saveEmployeeFile(existingBankManagers, "existing_employees.ser");
 
         System.out.println("\nThanks! Your account has been created. You may now log in." +
                 "\n");
@@ -169,41 +205,29 @@ public class MenuOptions
     }
 
 
-
     // Customer Login Method
     // ADD TRY CATCH BLOCK
     void customerLogin()
     {
-
         System.out.println("Please input your username: ");
-        String customerUsername = InputHandler.stringInput();
+        String attemptedUsername = InputExceptionHandler.stringInput();
 
         System.out.println("Please input your password: ");
-        String customerPassword = InputHandler.stringInput();
+        String attemptedPassword = InputExceptionHandler.stringInput();
 
-        // Scans to see if username and password are matches in the hashset
-        boolean checker = true;
-
-        while (checker)
-        {
-            if (checker = true)
-            {
-
-                redirectsToCustomerAccountMenu.customerAccountMenu();
-                checker = false;
-            }
-//            if (customerUsername.equals(foundCustomerUsername)
-//                    && customerPassword.equals(foundCustomerPassword)) {
-//                checker = false;
-//                customerMenu();
-            else
-            {
-                System.out.println("Invalid username or password. Please try again.\n");
-                customerLogin();
-            }
-        }
+        HashMap<String, Customer> existingCustomers = loader.loadExistingCustomer("customer_applications.ser");
+        for (Customer existingCustomer : existingCustomers.values())
+            if (existingCustomer.getCustomerUsername().equals(attemptedUsername))
+                if (existingCustomer.getCustomerPassword().equals(attemptedPassword))
+                {
+                    System.out.println("Login successful!");
+                    redirectsToCustomerAccountMenu.customerAccountMenu();
+                } else
+                {
+                    System.out.println("Sorry, your username or password is invalid.");
+                    welcomeMenu();
+                }
     }
-
 
 
     // Create customer account method
@@ -214,8 +238,7 @@ public class MenuOptions
         System.out.println("Would you like to create a individual or joint account? " +
                 "\nPlease type 1 for individual and 2 for joint.");
 
-        int IndOrJoint = InputHandler.intInput();
-
+        int IndOrJoint = InputExceptionHandler.intInput();
 
         // Create an individual account
         if (IndOrJoint == 1)
@@ -224,21 +247,21 @@ public class MenuOptions
 
             // Username
             System.out.println("Please enter your username: ");
-            customer.setCustomerUsername(InputHandler.stringInput());
+            customer.setCustomerUsername(InputExceptionHandler.stringInput());
 
             // Password
             System.out.println("Please enter your password: ");
-            customer.setCustomerPassword(InputHandler.stringInput());
+            customer.setCustomerPassword(InputExceptionHandler.stringInput());
 
             // First and last name
             System.out.println("Please enter your first name: ");
-            customer.setPrimaryFirstName(InputHandler.stringInput());
+            customer.setPrimaryFirstName(InputExceptionHandler.stringInput());
             System.out.println("Please enter your last name: ");
-            customer.setPrimaryLastName(InputHandler.stringInput());
+            customer.setPrimaryLastName(InputExceptionHandler.stringInput());
 
-            // SSN
-            System.out.println("Please enter your social security number: ");
-            customer.setPrimarySocialSecurity(InputHandler.intInput());
+            HashMap<String, Customer> existingCustomers = loader.loadExistingCustomer("customer_applications.ser");
+            existingCustomers.put(customer.getCustomerUsername(), customer);
+            saver.saveCustomerFile(existingCustomers, "customer_applications.ser");
 
             System.out.println("\nThanks! Your account has been created! You may now log in.\n");
 
@@ -254,35 +277,27 @@ public class MenuOptions
 
             // username
             System.out.println("Please create a username for the account: ");
-            customer.setCustomerUsername(InputHandler.stringInput());
+            customer.setCustomerUsername(InputExceptionHandler.stringInput());
 
 
             // password
             System.out.println("Please create a password for the account: ");
-            customer.setCustomerPassword(InputHandler.stringInput());
+            customer.setCustomerPassword(InputExceptionHandler.stringInput());
 
 
             // Primary holder's first and last name
 
             System.out.println("Please enter the primary account holder's first name: ");
-            customer.setPrimaryFirstName(InputHandler.stringInput());
+            customer.setPrimaryFirstName(InputExceptionHandler.stringInput());
             System.out.println("Please enter primary account holder's last name: ");
-            customer.setPrimaryLastName(InputHandler.stringInput());
-
-            // Primary's SSN
-            System.out.println("Please enter primary account holder's SSN");
-            customer.setPrimarySocialSecurity(InputHandler.intInput());
+            customer.setPrimaryLastName(InputExceptionHandler.stringInput());
 
             // Secondary holder's first and last name
 
             System.out.println("Please enter the secondary account holder's first name: ");
-            customer.setSecondaryFirstName(InputHandler.stringInput());
+            customer.setSecondaryFirstName(InputExceptionHandler.stringInput());
             System.out.println("Please enter the secondary account holder's last name: ");
-            customer.setSecondaryLastName(InputHandler.stringInput());
-
-            // Secondary's SSN
-            System.out.println("Please enter the secondary account holder's SSN");
-            customer.setSecondarySocialSecurity(InputHandler.intInput());
+            customer.setSecondaryLastName(InputExceptionHandler.stringInput());
 
             System.out.println("\nThanks! Your account has been created! You may now log in.\n");
 

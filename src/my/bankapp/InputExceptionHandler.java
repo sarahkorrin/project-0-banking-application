@@ -3,7 +3,7 @@ package my.bankapp;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class InputHandler
+public class InputExceptionHandler
 {
     public static int intInput()
     {

@@ -17,10 +17,6 @@ public class Customer implements Serializable {
 
     private String accountType;
 
-    private int primarySocialSecurity;
-    private int secondarySocialSecurity;
-
-
     private double balance = 0;
 
     public String getCustomerUsername()
@@ -91,26 +87,6 @@ public class Customer implements Serializable {
     public void setAccountType(String accountType)
     {
         this.accountType = accountType;
-    }
-
-    public int getPrimarySocialSecurity()
-    {
-        return primarySocialSecurity;
-    }
-
-    public void setPrimarySocialSecurity(int primarySocialSecurity)
-    {
-        this.primarySocialSecurity = primarySocialSecurity;
-    }
-
-    public int getSecondarySocialSecurity()
-    {
-        return secondarySocialSecurity;
-    }
-
-    public void setSecondarySocialSecurity(int secondarySocialSecurity)
-    {
-        this.secondarySocialSecurity = secondarySocialSecurity;
     }
 
     public double getBalance()
