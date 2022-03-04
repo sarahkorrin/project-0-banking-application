@@ -20,97 +20,106 @@ public class Customer implements Serializable {
     private int primarySocialSecurity;
     private int secondarySocialSecurity;
 
-    public String getCustomerAddress()
-    {
-        return customerAddress;
-    }
-
-    public void setCustomerAddress(String customerAddress)
-    {
-        this.customerAddress = customerAddress;
-    }
-
-    private String customerAddress;
 
     private double balance = 0;
 
-    public String getCustomerUsername() {
+    public String getCustomerUsername()
+    {
         return customerUsername;
     }
 
-    public void setCustomerUsername(String customerUsername) {
+    public void setCustomerUsername(String customerUsername)
+    {
         this.customerUsername = customerUsername;
     }
 
-    public String getCustomerPassword() {
+    public String getCustomerPassword()
+    {
         return customerPassword;
     }
 
-    public void setCustomerPassword(String customerPassword) {
+    public void setCustomerPassword(String customerPassword)
+    {
         this.customerPassword = customerPassword;
     }
 
-    public String getPrimaryFirstName() {
+    public String getPrimaryFirstName()
+    {
         return primaryFirstName;
     }
 
-    public void setPrimaryFirstName(String primaryFirstName) {
+    public void setPrimaryFirstName(String primaryFirstName)
+    {
         this.primaryFirstName = primaryFirstName;
     }
 
-    public String getSecondaryFirstName() {
+    public String getSecondaryFirstName()
+    {
         return secondaryFirstName;
     }
 
-    public void setSecondaryFirstName(String secondaryFirstName) {
+    public void setSecondaryFirstName(String secondaryFirstName)
+    {
         this.secondaryFirstName = secondaryFirstName;
     }
 
-    public String getPrimaryLastName() {
+    public String getPrimaryLastName()
+    {
         return primaryLastName;
     }
 
-    public void setPrimaryLastName(String primaryLastName) {
+    public void setPrimaryLastName(String primaryLastName)
+    {
         this.primaryLastName = primaryLastName;
     }
 
-    public String getSecondaryLastName() {
+    public String getSecondaryLastName()
+    {
         return secondaryLastName;
     }
 
-    public void setSecondaryLastName(String secondaryLastName) {
+    public void setSecondaryLastName(String secondaryLastName)
+    {
         this.secondaryLastName = secondaryLastName;
     }
 
-    public String getAccountType() {
+    public String getAccountType()
+    {
         return accountType;
     }
 
-    public void setAccountType(String accountType) {
+    public void setAccountType(String accountType)
+    {
         this.accountType = accountType;
     }
 
-    public int getPrimarySocialSecurity() {
+    public int getPrimarySocialSecurity()
+    {
         return primarySocialSecurity;
     }
 
-    public void setPrimarySocialSecurity(int primarySocialSecurity) {
+    public void setPrimarySocialSecurity(int primarySocialSecurity)
+    {
         this.primarySocialSecurity = primarySocialSecurity;
     }
 
-    public int getSecondarySocialSecurity() {
+    public int getSecondarySocialSecurity()
+    {
         return secondarySocialSecurity;
     }
 
-    public void setSecondarySocialSecurity(int secondarySocialSecurity) {
+    public void setSecondarySocialSecurity(int secondarySocialSecurity)
+    {
         this.secondarySocialSecurity = secondarySocialSecurity;
     }
 
-    public double getBalance() {
+    public double getBalance()
+    {
         return balance;
     }
 
-    public void setBalance(double balance) {
+    public void setBalance(double balance)
+    {
         this.balance = balance;
     }
 }

@@ -1,24 +1,23 @@
 package my.bankapp;
 
 import java.util.InputMismatchException;
-import java.util.Scanner;
 
-public class EmployeeOptionsMenu
+public class BankManagerOptionsMenu
 {
     Customer customer = new Customer();
-    Scanner employeeInput = new Scanner(System.in);
+
 
     void checkCustomerAccountIdentifier()
     {
 
-        EmployeeOptionsMenu employeeChecksCustomerAccount = new EmployeeOptionsMenu();
+        BankManagerOptionsMenu employeeChecksCustomerAccount = new BankManagerOptionsMenu();
 
         System.out.println("What customer are you looking to check? Please input their username: ");
 
-        customer.setCustomerUsername(employeeInput.nextLine());
+        customer.setCustomerUsername(InputHandler.stringInput());
 
         System.out.println("What is the customer's password: ");
-        customer.setCustomerPassword(employeeInput.nextLine());
+        customer.setCustomerPassword(InputHandler.stringInput());
 
 
         // Scans to see if username and password are matches in the hashset
@@ -52,10 +51,9 @@ public class EmployeeOptionsMenu
                     + customer.getPrimaryLastName() + "'s account? Type a number to input your choice." +
                     "\n1: Check their account information" + // Whether the account is ind or joint, username
                     "\n2: Check their account balance" + // Balance amount
-                    "\n3: Check their personal information" +  // Name, address
-                    "\n4: Log out");
+                    "\n3: Log out");
 
-            int employeeCustomerAccountChoice = employeeInput.nextInt();
+            int employeeCustomerAccountChoice = InputHandler.intInput();
 
             switch (employeeCustomerAccountChoice)
             {
@@ -65,9 +63,10 @@ public class EmployeeOptionsMenu
 
                     System.out.println("What account information would you like to access?" +
                             "\n1: User account type: individual or joint" +
-                            "\n2: Username");
+                            "\n2: Username" +
+                            "\n3: First and last name of user(s)");
 
-                    int employeeCustomerInfoChoice = employeeInput.nextInt();
+                    int employeeCustomerInfoChoice = InputHandler.intInput();
 
                     // Employee checks if the customer has an individual or joint account
                     if (employeeCustomerInfoChoice == 1)
@@ -92,6 +91,16 @@ public class EmployeeOptionsMenu
                         checkCustomerAccount();
                     }
 
+                    else if (employeeCustomerInfoChoice == 3)
+                    {
+                        System.out.println("Primary first name: " + customer.getPrimaryFirstName());
+                        System.out.println("Primary last name: " + customer.getPrimaryLastName());
+                        if (customer.getAccountType().equals("Joint"))
+                        {
+                            System.out.println("Secondary first name: " + customer.getSecondaryFirstName());
+                            System.out.println("Secondary last name: " + customer.getSecondaryLastName());
+                        }
+                    }
                     // Invalid input
                     else
 
@@ -103,7 +112,7 @@ public class EmployeeOptionsMenu
 
                         try
                         {
-                            employeeCustomerInfoChoice = employeeInput.nextInt();
+                            employeeCustomerInfoChoice = InputHandler.intInput();
                         } catch (InputMismatchException errorHandler)
                         {
                             System.out.println("Invalid input.");
@@ -117,35 +126,8 @@ public class EmployeeOptionsMenu
                     Customer getBalance = new Customer();
                     System.out.println("\nThe account balance is: $" + customer.getBalance());
 
+
                 case 3:
-                    System.out.println("What personal information would you like to access? " +
-                            "Type a number for the following choice" +
-                            "\n1. Name" +
-                            "\n2. Address");
-
-                    int nameOrAddress = employeeInput.nextInt();
-
-                    if (nameOrAddress == 1)
-                    {
-                        System.out.println("The primary account holder is: " +
-                                customer.getPrimaryFirstName() + customer.getPrimaryLastName());
-                                checkCustomerAccount();
-                    }
-
-                    else if (nameOrAddress == 2)
-                    {
-                        System.out.println("Address: " +
-                            customer.getCustomerAddress());
-                            checkCustomerAccount();
-                    }
-
-                    else
-                    {
-                        System.out.println("Invalid entry. Please try again.");
-                        checkCustomerAccount();
-                    }
-
-                case 4:
                     System.out.println("You will be logged out now.");
 
                 default:

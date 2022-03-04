@@ -1,12 +1,7 @@
 package my.bankapp;
 
-import org.w3c.dom.ls.LSOutput;
-
-import java.util.Scanner;
-
 public class CustomerOptionsMenu
 {
-    Scanner userInput = new Scanner(System.in);
     Customer customer = new Customer();
     void customerAccountMenu()
     {
@@ -21,7 +16,7 @@ public class CustomerOptionsMenu
                 "\n");
 
 
-        int customerAccountOptionsMenu = userInput.nextInt();
+        int customerAccountOptionsMenu = InputHandler.intInput();
 
         switch(customerAccountOptionsMenu)
         {
@@ -35,7 +30,7 @@ public class CustomerOptionsMenu
             case 2:
                 System.out.println("\nHow much money would you like to deposit? Please input a number: \n");
 
-                int depositNumber = userInput.nextInt();
+                int depositNumber = InputHandler.intInput();
                 customer.setBalance(customer.getBalance() + depositNumber );
                 System.out.println("\nYou have deposited $" + depositNumber + ".");
                 System.out.println("Your new balance is $" + customer.getBalance() + "." + "\n");
@@ -48,7 +43,7 @@ public class CustomerOptionsMenu
 
                 System.out.println("\nHow much money would you like to withdraw? Please input a number: \n");
 
-                int withdrawNumber = userInput.nextInt();
+                int withdrawNumber = InputHandler.intInput();
                 customer.setBalance(customer.getBalance() - withdrawNumber);
                 System.out.println("\nYou have withdrawn $" + withdrawNumber + ".");
                 System.out.println("Your new balance is $" + customer.getBalance() + "." + "\n");
