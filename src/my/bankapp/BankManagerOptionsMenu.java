@@ -1,10 +1,5 @@
 package my.bankapp;
 
-import org.w3c.dom.ls.LSOutput;
-
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 
@@ -23,14 +18,14 @@ public class BankManagerOptionsMenu
             System.out.println("Welcome, " + employee.getBankManagerFirstName() + "! What would you like to do? Please input a number:" +
                     "\n1. Approve open applications" +
                     "\n2. Check customer account");
-            int applicationOrCustomerAccount = InputExceptionHandler.intInput();
+            int applicationOrCustomerAccount = InputExceptionHandler.nextInt();
             if (applicationOrCustomerAccount == 1)
             {
                 // approveOrDenyApplication();
             } else if (applicationOrCustomerAccount == 2)
             {
                 System.out.println("Please enter customer's username:");
-                Customer customer = checkCustomerAccountIdentifier(InputExceptionHandler.stringInput());
+                Customer customer = checkCustomerAccountIdentifier(InputExceptionHandler.nextString());
                 checkCustomerAccount(customer);
             }
             else
@@ -42,7 +37,7 @@ public class BankManagerOptionsMenu
 
     Customer checkCustomerAccountIdentifier(String customerUsername)
     {
-        HashMap<String, Customer> existingCustomers = loader.loadExistingCustomer("customer_applications.ser");
+        HashMap<String, Customer> existingCustomers = loader.loadExistingCustomers("customer_applications.ser");
         for (Customer existingCustomer : existingCustomers.values())
             if (customerUsername.equals(existingCustomer.getCustomerUsername()))
                 customer = existingCustomer;
@@ -57,7 +52,7 @@ public class BankManagerOptionsMenu
                 "\n2: Check their account balance" + // Balance amount
                 "\n3: Log out");
 
-        int employeeCustomerAccountChoice = InputExceptionHandler.intInput();
+        int employeeCustomerAccountChoice = InputExceptionHandler.nextInt();
 
         switch (employeeCustomerAccountChoice)
         {
@@ -66,32 +61,14 @@ public class BankManagerOptionsMenu
             case 1:
 
                 System.out.println("What account information would you like to access?" +
-                        "\n1: User account type: individual or joint" +
-                        "\n2: Username" +
-                        "\n3: First and last name of user(s)");
+                        "\n1: Account information" +
+                        "\n2: Check balance");
 
-                int employeeCustomerInfoChoice = InputExceptionHandler.intInput();
+                int employeeCustomerInfoChoice = InputExceptionHandler.nextInt();
 
                 // Employee checks if the customer has an individual or joint account
                 if (employeeCustomerInfoChoice == 1)
 
-                {
-
-                    System.out.println(customer.getPrimaryFirstName() + " " +
-                            customer.getPrimaryLastName() + "'s account type is: "
-                            + customer.getAccountType());
-                }
-
-
-                // Employee checks what the customer's username is
-                else if (employeeCustomerInfoChoice == 2)
-
-                {
-
-                    System.out.println(customer.getPrimaryFirstName() + " " +
-                            customer.getPrimaryLastName() + "'s username is: " +
-                            customer.getCustomerUsername());
-                } else if (employeeCustomerInfoChoice == 3)
                 {
                     System.out.println("Primary first name: " + customer.getPrimaryFirstName());
                     System.out.println("Primary last name: " + customer.getPrimaryLastName());
@@ -110,7 +87,7 @@ public class BankManagerOptionsMenu
 
                     try
                     {
-                        employeeCustomerInfoChoice = InputExceptionHandler.intInput();
+                        employeeCustomerInfoChoice = InputExceptionHandler.nextInt();
                     } catch (InputMismatchException errorHandler)
                     {
                         System.out.println("Invalid input.");

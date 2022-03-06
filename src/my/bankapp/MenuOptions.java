@@ -1,6 +1,5 @@
 package my.bankapp;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -17,27 +16,29 @@ public class MenuOptions
     // ADD TRY CATCH BLOCK
     void welcomeMenu()
     {
-        System.out.println("Welcome to the bank. Are you an employee or a customer?");
-        System.out.println("(TESTING FEATURE) Type 'delete' to remove all accounts and transactions.");
+        System.out.println("Welcome to the bank. " +
+                "Please enter a number for your selection." +
+                "\n1. Employee" +
+                "\n2. Customer" +
+                "\n3. TESTING FEATURE: Delete all accounts and transactions.");
 
-        String employeeOrCustomerChoice = InputExceptionHandler.stringInput();
-
+        int employeeOrCustomerChoice = InputExceptionHandler.nextInt();
 
         // User inputs that they are an employee
-        if (employeeOrCustomerChoice.toLowerCase().equals("employee"))
+        if (employeeOrCustomerChoice == 1)
         {
             newOrExistingEmployeeAccount();
         }
 
-
         // User inputs that they are a customer
-        else if (employeeOrCustomerChoice.toLowerCase().equals("customer"))
+        else if (employeeOrCustomerChoice == 2)
         {
             newOrExistingCustomerAccount();
         }
 
         // TESTING FEATURE. REMOVE AT END!
-        else if (employeeOrCustomerChoice.equals("delete")) {
+        else if (employeeOrCustomerChoice == 3)
+        {
             try
             {
                 FileOutputStream customerApplications = new FileOutputStream("customer_applications.ser");
@@ -77,7 +78,7 @@ public class MenuOptions
                 "\n1. Create an account" +
                 "\n2. Login");
 
-        int createOrLogIn = InputExceptionHandler.intInput();
+        int createOrLogIn = InputExceptionHandler.nextInt();
 
         // Calls the create a customer account method
         if (createOrLogIn == 1)
@@ -110,7 +111,7 @@ public class MenuOptions
                 "\n1. Create an account" +
                 "\n2. Login");
 
-        int createOrLogInEmployee = InputExceptionHandler.intInput();
+        int createOrLogInEmployee = InputExceptionHandler.nextInt();
 
         // Calls the create an employee account method
         if (createOrLogInEmployee == 1)
@@ -147,10 +148,10 @@ public class MenuOptions
         } else
         {
             System.out.println("Please input your employee username: ");
-            String attemptedEmployeeUsername = InputExceptionHandler.stringInput();
+            String attemptedEmployeeUsername = InputExceptionHandler.nextString();
 
             System.out.println("Please in put your employee password: ");
-            String attemptedEmployeePassword = InputExceptionHandler.stringInput();
+            String attemptedEmployeePassword = InputExceptionHandler.nextString();
 
 
             for (BankManager existingBankManager : existingBankManagers.values())
@@ -180,17 +181,17 @@ public class MenuOptions
 
         // Employee username
         System.out.println("Please input your desired username: ");
-        employee.setBankManagerUsername(InputExceptionHandler.stringInput());
+        employee.setBankManagerUsername(InputExceptionHandler.nextString());
 
         // Employee password
         System.out.println("Please input your desired password: ");
-        employee.setBankManagerPassword(InputExceptionHandler.stringInput());
+        employee.setBankManagerPassword(InputExceptionHandler.nextString());
 
         // Employee first and last name
         System.out.println("Please input your first name: ");
-        employee.setBankManagerFirstName(InputExceptionHandler.stringInput());
+        employee.setBankManagerFirstName(InputExceptionHandler.nextString());
         System.out.println("Please input your last name: ");
-        employee.setBankManagerLastName(InputExceptionHandler.stringInput());
+        employee.setBankManagerLastName(InputExceptionHandler.nextString());
 
         HashMap<String, BankManager> existingBankManagers = loader.loadExistingBankManagers("existing_employees.ser");
         existingBankManagers.put(employee.getBankManagerUsername(), employee);
@@ -210,18 +211,18 @@ public class MenuOptions
     void customerLogin()
     {
         System.out.println("Please input your username: ");
-        String attemptedUsername = InputExceptionHandler.stringInput();
+        String attemptedUsername = InputExceptionHandler.nextString();
 
         System.out.println("Please input your password: ");
-        String attemptedPassword = InputExceptionHandler.stringInput();
+        String attemptedPassword = InputExceptionHandler.nextString();
 
-        HashMap<String, Customer> existingCustomers = loader.loadExistingCustomer("customer_applications.ser");
+        HashMap<String, Customer> existingCustomers = loader.loadExistingCustomers("customer_applications.ser");
         for (Customer existingCustomer : existingCustomers.values())
             if (existingCustomer.getCustomerUsername().equals(attemptedUsername))
                 if (existingCustomer.getCustomerPassword().equals(attemptedPassword))
                 {
                     System.out.println("Login successful!");
-                    redirectsToCustomerAccountMenu.customerAccountMenu();
+                    redirectsToCustomerAccountMenu.customerAccountMenu(existingCustomer);
                 } else
                 {
                     System.out.println("Sorry, your username or password is invalid.");
@@ -238,7 +239,7 @@ public class MenuOptions
         System.out.println("Would you like to create a individual or joint account? " +
                 "\nPlease type 1 for individual and 2 for joint.");
 
-        int IndOrJoint = InputExceptionHandler.intInput();
+        int IndOrJoint = InputExceptionHandler.nextInt();
 
         // Create an individual account
         if (IndOrJoint == 1)
@@ -247,19 +248,19 @@ public class MenuOptions
 
             // Username
             System.out.println("Please enter your username: ");
-            customer.setCustomerUsername(InputExceptionHandler.stringInput());
+            customer.setCustomerUsername(InputExceptionHandler.nextString());
 
             // Password
             System.out.println("Please enter your password: ");
-            customer.setCustomerPassword(InputExceptionHandler.stringInput());
+            customer.setCustomerPassword(InputExceptionHandler.nextString());
 
             // First and last name
             System.out.println("Please enter your first name: ");
-            customer.setPrimaryFirstName(InputExceptionHandler.stringInput());
+            customer.setPrimaryFirstName(InputExceptionHandler.nextString());
             System.out.println("Please enter your last name: ");
-            customer.setPrimaryLastName(InputExceptionHandler.stringInput());
+            customer.setPrimaryLastName(InputExceptionHandler.nextString());
 
-            HashMap<String, Customer> existingCustomers = loader.loadExistingCustomer("customer_applications.ser");
+            HashMap<String, Customer> existingCustomers = loader.loadExistingCustomers("customer_applications.ser");
             existingCustomers.put(customer.getCustomerUsername(), customer);
             saver.saveCustomerFile(existingCustomers, "customer_applications.ser");
 
@@ -277,27 +278,27 @@ public class MenuOptions
 
             // username
             System.out.println("Please create a username for the account: ");
-            customer.setCustomerUsername(InputExceptionHandler.stringInput());
+            customer.setCustomerUsername(InputExceptionHandler.nextString());
 
 
             // password
             System.out.println("Please create a password for the account: ");
-            customer.setCustomerPassword(InputExceptionHandler.stringInput());
+            customer.setCustomerPassword(InputExceptionHandler.nextString());
 
 
             // Primary holder's first and last name
 
             System.out.println("Please enter the primary account holder's first name: ");
-            customer.setPrimaryFirstName(InputExceptionHandler.stringInput());
+            customer.setPrimaryFirstName(InputExceptionHandler.nextString());
             System.out.println("Please enter primary account holder's last name: ");
-            customer.setPrimaryLastName(InputExceptionHandler.stringInput());
+            customer.setPrimaryLastName(InputExceptionHandler.nextString());
 
             // Secondary holder's first and last name
 
             System.out.println("Please enter the secondary account holder's first name: ");
-            customer.setSecondaryFirstName(InputExceptionHandler.stringInput());
+            customer.setSecondaryFirstName(InputExceptionHandler.nextString());
             System.out.println("Please enter the secondary account holder's last name: ");
-            customer.setSecondaryLastName(InputExceptionHandler.stringInput());
+            customer.setSecondaryLastName(InputExceptionHandler.nextString());
 
             System.out.println("\nThanks! Your account has been created! You may now log in.\n");
 

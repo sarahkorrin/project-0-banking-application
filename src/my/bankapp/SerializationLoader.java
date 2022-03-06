@@ -10,7 +10,7 @@ public class SerializationLoader
     private HashMap<String, BankManager> existingBankManagers;  // Hashmap for serializing bank manager
     private ArrayList<String> transactionHistory;   // ArrayList for serializing transaction history
 
-    public HashMap<String, Customer> loadExistingCustomer(String fileName)  // Method that loads customer serialization
+    public HashMap<String, Customer> loadExistingCustomers(String fileName)  // Method that loads customer serialization
     {
         try
         {
