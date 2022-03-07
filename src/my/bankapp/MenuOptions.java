@@ -145,12 +145,13 @@ public class MenuOptions
         {
             System.out.println("There are no employees.");
             welcomeMenu();
-        } else
+        }
+        else
         {
             System.out.println("Please input your employee username: ");
             String attemptedEmployeeUsername = InputExceptionHandler.nextString();
 
-            System.out.println("Please in put your employee password: ");
+            System.out.println("Please input your employee password: ");
             String attemptedEmployeePassword = InputExceptionHandler.nextString();
 
 
@@ -305,9 +306,15 @@ public class MenuOptions
             existingCustomers.put(customer.getCustomerUsername(), customer);
             saver.saveCustomerFile(existingCustomers, "customer_applications.ser");
 
-            System.out.println("\nThanks! You have applied to open an account. +" +
+            System.out.println("\nThanks! You have applied to open an account. " +
                     "A bank employee will have to approve your application for you to log in.\n");
 
+            welcomeMenu();
+        }
+
+        else
+        {
+            System.out.println("Invalid entry.");
             welcomeMenu();
         }
     }

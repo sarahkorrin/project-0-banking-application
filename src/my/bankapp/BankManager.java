@@ -10,7 +10,7 @@ public class BankManager implements Serializable {
     private String bankManagerPassword;
     private String bankManagerFirstName;
     private String bankManagerLastName;
-    private String bankManagerAccountType;
+    private String bankManagerAccountType = "Employee";
     String bankManager;
 
     // Employee variable getters and setters
@@ -53,5 +53,15 @@ public class BankManager implements Serializable {
     public void setBankManagerLastName(String bankManagerLastName)
     {
         this.bankManagerLastName = bankManagerLastName;
+    }
+
+    public String getBankManagerAccountType()
+    {
+        return bankManagerAccountType;
+    }
+
+    public void setBankManagerAccountType(String bankManagerAccountType)
+    {
+        this.bankManagerAccountType = bankManagerAccountType;
     }
 }
