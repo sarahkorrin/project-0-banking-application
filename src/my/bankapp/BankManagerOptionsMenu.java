@@ -56,7 +56,7 @@ public class BankManagerOptionsMenu
             } else if (applicationOrCustomerAccount == 3)
             {
                 ArrayList<String> transactionsLog = loader.loadTransactions();
-                System.out.println("\n--------------------------------------------------");
+                System.out.println("\n-----------------------------------------------------------------");
                 for (String transaction : transactionsLog)
                 {
                     if (transactionsLog.isEmpty() || transactionsLog == null)
@@ -67,7 +67,7 @@ public class BankManagerOptionsMenu
                         System.out.println(transaction);
                     }
                 }
-                System.out.println("--------------------------------------------------\n");
+                System.out.println("-----------------------------------------------------------------\n");
             } else if (applicationOrCustomerAccount == 4)
             {
                 System.out.println("Please enter security code for admin rights: ");
@@ -80,11 +80,13 @@ public class BankManagerOptionsMenu
                 {
                     System.out.println("Access denied.");
                 }
-            } else if (applicationOrCustomerAccount == 5)
+            }
+            else if (applicationOrCustomerAccount == 5)
             {
                 System.out.println("You will now be logged out.");
                 System.exit(0);
-            } else if (applicationOrCustomerAccount == 6)
+            }
+            else if (applicationOrCustomerAccount == 6)
             {
                 if (bankManager.getBankManagerAccountType().equals("Admin"))
                     adminOpenCustomerAccount();
@@ -530,7 +532,7 @@ public class BankManagerOptionsMenu
                             targetCustomer.setBalance(targetCustomer.getBalance() + transferNumber);
 
                             String transactionDetails = "An admin transferred " + String.valueOf(transferNumber) + " from "
-                                    + customer.getCustomerUsername() + " to " + targetCustomer.getCustomerUsername();
+                                    + customer.getCustomerUsername() + " to: " + targetCustomer.getCustomerUsername();
 
                             customer.transactions.add(transactionDetails);
                             customers.put(targetCustomer.getCustomerUsername(), targetCustomer);
@@ -539,7 +541,7 @@ public class BankManagerOptionsMenu
                             transactionDetails = "";
 
                             System.out.println("\nYou have successfully transferred " + transferNumber
-                                    + " to " + targetUsername + ".");
+                                    + " to: " + targetUsername);
                             System.out.println("This customer's new balance is: " + customer.getBalance() +
                                     ".\n");
                         }

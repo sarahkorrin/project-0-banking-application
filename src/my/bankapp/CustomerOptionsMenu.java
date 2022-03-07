@@ -60,7 +60,8 @@ public class CustomerOptionsMenu
                     System.out.println("\nYou have deposited $" + depositNumber + ".");
                     System.out.println("Your new balance is $" + customer.getBalance() + "." + "\n");
 
-                    transactionDetails = customer.getCustomerUsername() + " deposited: " + String.valueOf(depositNumber);
+                    transactionDetails = customer.getCustomerUsername()
+                            + " deposited: " + String.valueOf(depositNumber);
                     customer.transactions.add(transactionDetails);
                     saveAndLogTransaction(customer, transactionDetails);
                     transactionDetails = "";
@@ -91,7 +92,8 @@ public class CustomerOptionsMenu
                         System.out.println("\nYou have withdrawn $" + withdrawNumber + ".");
                         System.out.println("Your new balance is $" + customer.getBalance() + "." + "\n");
 
-                        transactionDetails = customer.getCustomerUsername() + " withdrew: " + String.valueOf(withdrawNumber);
+                        transactionDetails = customer.getCustomerUsername() + " withdrew: "
+                                + String.valueOf(withdrawNumber);
                         customer.transactions.add(transactionDetails);
                         saveAndLogTransaction(customer, transactionDetails);
                         transactionDetails = "";
@@ -140,14 +142,14 @@ public class CustomerOptionsMenu
                                     targetCustomer.setBalance(targetCustomer.getBalance() + transferNumber);
                                     transactionDetails = customer.getCustomerUsername() + " transferred " +
                                             String.valueOf(transferNumber)
-                                            + " to " + targetCustomer.getCustomerUsername();
+                                            + " to: " + targetCustomer.getCustomerUsername();
                                     customer.transactions.add(transactionDetails);
                                     customers.put(targetCustomer.getCustomerUsername(), targetCustomer);
                                     saver.saveCustomerFile(customers, "existing_customers.ser");
                                     saveAndLogTransaction(customer, transactionDetails);
                                     transactionDetails = "";
                                     System.out.println("\nYou have successfully transferred " + transferNumber
-                                            + " to " + targetUsername);
+                                            + " to: " + targetUsername);
                                     System.out.println("Your new balance is: " + customer.getBalance() +
                                             ".\n");
                                     customerAccountMenu(customer);
@@ -165,12 +167,12 @@ public class CustomerOptionsMenu
                 }
 
             case 5:
-                System.out.println("----------------------------------------");
+                System.out.println("---------------------------------------------------------------------");
                 for (String transaction : customer.transactions)
                 {
                     System.out.println(transaction);
                 }
-                System.out.println("----------------------------------------");
+                System.out.println("---------------------------------------------------------------------");
                 customerAccountMenu(customer);
 
             case 6:
