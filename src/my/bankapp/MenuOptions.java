@@ -18,8 +18,8 @@ public class MenuOptions
     {
         System.out.println("Welcome to the bank. " +
                 "Please enter a number for your selection." +
-                "\n1. Employee" +
-                "\n2. Customer" +
+                "\n1. Customer" +
+                "\n2. Employee" +
                 "\n3. TESTING FEATURE: Delete all accounts and transactions.");
 
         int employeeOrCustomerChoice = InputExceptionHandler.nextInt();
@@ -27,13 +27,13 @@ public class MenuOptions
         // User inputs that they are an employee
         if (employeeOrCustomerChoice == 1)
         {
-            newOrExistingEmployeeAccount();
+            newOrExistingCustomerAccount();
         }
 
         // User inputs that they are a customer
         else if (employeeOrCustomerChoice == 2)
         {
-            newOrExistingCustomerAccount();
+            newOrExistingEmployeeAccount();
         }
 
         // TESTING FEATURE. REMOVE AT END!
@@ -73,9 +73,9 @@ public class MenuOptions
     // ADD TRY CATCH BLOCK
     private void newOrExistingCustomerAccount()
     {
-        System.out.println("Would you like to create an account or log in? " +
+        System.out.println("Would you like to apply for an account or log in? " +
                 "Please input a number for your choice" +
-                "\n1. Create an account" +
+                "\n1. Apply for an account" +
                 "\n2. Login");
 
         int createOrLogIn = InputExceptionHandler.nextInt();
@@ -216,7 +216,7 @@ public class MenuOptions
         System.out.println("Please input your password: ");
         String attemptedPassword = InputExceptionHandler.nextString();
 
-        HashMap<String, Customer> existingCustomers = loader.loadExistingCustomers("customer_applications.ser");
+        HashMap<String, Customer> existingCustomers = loader.loadExistingCustomers("existing_customers.ser");
         for (Customer existingCustomer : existingCustomers.values())
             if (existingCustomer.getCustomerUsername().equals(attemptedUsername))
                 if (existingCustomer.getCustomerPassword().equals(attemptedPassword))
@@ -264,7 +264,8 @@ public class MenuOptions
             existingCustomers.put(customer.getCustomerUsername(), customer);
             saver.saveCustomerFile(existingCustomers, "customer_applications.ser");
 
-            System.out.println("\nThanks! Your account has been created! You may now log in.\n");
+            System.out.println("\nThanks! You have applied to open an account. " +
+                    "A bank employee will have to approve your application for you to log in.\n");
 
             welcomeMenu();
         }
@@ -300,7 +301,12 @@ public class MenuOptions
             System.out.println("Please enter the secondary account holder's last name: ");
             customer.setSecondaryLastName(InputExceptionHandler.nextString());
 
-            System.out.println("\nThanks! Your account has been created! You may now log in.\n");
+            HashMap<String, Customer> existingCustomers = loader.loadExistingCustomers("customer_applications.ser");
+            existingCustomers.put(customer.getCustomerUsername(), customer);
+            saver.saveCustomerFile(existingCustomers, "customer_applications.ser");
+
+            System.out.println("\nThanks! You have applied to open an account. +" +
+                    "A bank employee will have to approve your application for you to log in.\n");
 
             welcomeMenu();
         }

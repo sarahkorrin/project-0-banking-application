@@ -49,4 +49,15 @@ public class InputExceptionHandler
         return input;
     }
 
+    static void threadSleeper()
+    {
+        try
+        {
+            Thread.sleep(10);
+        }
+        catch (InterruptedException e)
+        {
+            System.out.println("No one's around to help: " + e.getStackTrace());
+        }
+    }
 }

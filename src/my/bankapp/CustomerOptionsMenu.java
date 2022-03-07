@@ -11,12 +11,12 @@ public class CustomerOptionsMenu
 
     void saveAndLogTransaction(Customer customer, String transaction)
     {
-        HashMap<String, Customer> existingCustomers = loader.loadExistingCustomers("customer_applications.ser");
+        HashMap<String, Customer> existingCustomers = loader.loadExistingCustomers("existing_customers.ser");
         existingCustomers.put(customer.getCustomerUsername(), customer);
         ArrayList<String> transactions = loader.loadTransactions();
         transactions.add(transaction);
         saver.saveTransactionFile(transactions, "transactions_log.ser");
-        saver.saveCustomerFile(existingCustomers, "customer_applications.ser");
+        saver.saveCustomerFile(existingCustomers, "existing_customers.ser");
     }
 
     void customerAccountMenu(Customer customer)
@@ -28,7 +28,8 @@ public class CustomerOptionsMenu
                 "\n2. Deposit funds" +
                 "\n3. Withdraw funds" +
                 "\n4. Transfer money to another account" +
-                "\n5. Log out" +
+                "\n5. View transaction history" +
+                "\n6. Log out" +
                 "\n");
 
 
@@ -52,13 +53,15 @@ public class CustomerOptionsMenu
                 {
                     System.out.println("Invalid number. You must deposit an amount greater than $0.");
                     customerAccountMenu(customer);
-                } else
+                }
+                else
                 {
                     customer.setBalance(customer.getBalance() + depositNumber);
                     System.out.println("\nYou have deposited $" + depositNumber + ".");
                     System.out.println("Your new balance is $" + customer.getBalance() + "." + "\n");
 
                     transactionDetails = customer.getCustomerUsername() + " deposited: " + String.valueOf(depositNumber);
+                    customer.transactions.add(transactionDetails);
                     saveAndLogTransaction(customer, transactionDetails);
                     transactionDetails = "";
 
@@ -89,6 +92,7 @@ public class CustomerOptionsMenu
                         System.out.println("Your new balance is $" + customer.getBalance() + "." + "\n");
 
                         transactionDetails = customer.getCustomerUsername() + " withdrew: " + String.valueOf(withdrawNumber);
+                        customer.transactions.add(transactionDetails);
                         saveAndLogTransaction(customer, transactionDetails);
                         transactionDetails = "";
 
@@ -125,7 +129,7 @@ public class CustomerOptionsMenu
                     else
                     {
                         HashMap<String, Customer> customers = loader.loadExistingCustomers
-                                ("customer_applications.ser");
+                                ("existing_customers.ser");
                         for (Customer targetCustomer : customers.values())
                         {
                             if (customers.containsKey(targetUsername))
@@ -137,8 +141,9 @@ public class CustomerOptionsMenu
                                     transactionDetails = customer.getCustomerUsername() + " transferred " +
                                             String.valueOf(transferNumber)
                                             + " to " + targetCustomer.getCustomerUsername();
+                                    customer.transactions.add(transactionDetails);
                                     customers.put(targetCustomer.getCustomerUsername(), targetCustomer);
-                                    saver.saveCustomerFile(customers, "customer_applications.ser");
+                                    saver.saveCustomerFile(customers, "existing_customers.ser");
                                     saveAndLogTransaction(customer, transactionDetails);
                                     transactionDetails = "";
                                     System.out.println("\nYou have successfully transferred " + transferNumber
@@ -159,8 +164,16 @@ public class CustomerOptionsMenu
                     break;
                 }
 
-
             case 5:
+                System.out.println("----------------------------------------");
+                for (String transaction : customer.transactions)
+                {
+                    System.out.println(transaction);
+                }
+                System.out.println("----------------------------------------");
+                customerAccountMenu(customer);
+
+            case 6:
 
                 System.out.println("\nYou will now be logged out. Thank you for coming to the bank!" + "\n");
                 System.exit(0);

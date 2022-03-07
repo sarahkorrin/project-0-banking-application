@@ -11,6 +11,7 @@ public class BankManager implements Serializable {
     private String bankManagerFirstName;
     private String bankManagerLastName;
     private String bankManagerAccountType;
+    String bankManager;
 
     // Employee variable getters and setters
 
