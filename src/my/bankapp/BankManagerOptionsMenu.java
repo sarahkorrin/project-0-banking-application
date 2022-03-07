@@ -254,6 +254,7 @@ public class BankManagerOptionsMenu
                 switch (approveOrDeny)
                 {
                     case 1:
+                        String buffer = "";
                         for (Customer selectedCustomer : openApplications.values())
                         {
                             if (selectedCustomer.getCustomerUsername().equals(checkOpenApplicationForUsername))
@@ -267,25 +268,30 @@ public class BankManagerOptionsMenu
 
                                 saver.saveCustomerFile(existingCustomers, "existing_customers.ser");
                                 InputExceptionHandler.threadSleeper();
-                                openApplications.remove(selectedCustomer.getCustomerUsername());
-                                InputExceptionHandler.threadSleeper();
-                                saver.saveCustomerFile(openApplications, "customer_applications.ser");
+                                buffer = selectedCustomer.getCustomerUsername();
 
                                 if (selectedCustomer.getAccountType().equals("Joint"))
                                 {
                                     System.out.println("Thank you. " + primaryCustomerFullName + " and " + secondaryCustomerFullName +
                                             "'s application for a bank account has been approved. They may now login.");
-                                } else if (selectedCustomer.getAccountType().equals("Individual"))
+                                }
+                                else if (selectedCustomer.getAccountType().equals("Individual"))
                                 {
                                     System.out.println("Thank you. " + primaryCustomerFullName +
                                             "'s application for a bank account has been approved. They may now login.");
-                                } else
+
+                                }
+                                else
                                 {
                                     System.out.println("Invalid input.");
                                 }
 
                             }
                         }
+                        openApplications.remove(buffer);
+                        InputExceptionHandler.threadSleeper();
+                        saver.saveCustomerFile(openApplications, "customer_applications.ser");
+                        break;
 
 
                     case 2:
@@ -304,12 +310,14 @@ public class BankManagerOptionsMenu
                                     saver.saveCustomerFile(openApplications, "customer_applications.ser");
                                     System.out.println(primaryCustomerFullName + " and " + secondaryCustomerFullName +
                                             "'s application for a bank account has been denied.");
-                                } else if (selectedCustomer.getAccountType().equals("Individual"))
+                                }
+                                else if (selectedCustomer.getAccountType().equals("Individual"))
                                 {
                                     saver.saveCustomerFile(openApplications, "customer_applications.ser");
                                     System.out.println(primaryCustomerFullName +
                                             "'s application for a bank account has been denied.");
-                                } else
+                                }
+                                else
                                 {
                                     System.out.println("Invalid input.");
                                 }
@@ -317,13 +325,20 @@ public class BankManagerOptionsMenu
                             }
                         }
 
+                        break;
+
                     default:
                         System.out.println("Invalid selection.");
+
+                        break;
                 }
-            } else
+            }
+            else
             {
                 System.out.println("Sorry, that customer does not exist.");
+
             }
+
         }
 
     }
