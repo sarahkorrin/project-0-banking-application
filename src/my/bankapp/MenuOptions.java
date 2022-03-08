@@ -19,8 +19,8 @@ public class MenuOptions
         System.out.println("Welcome to the bank. " +
                 "Please enter a number for your selection." +
                 "\n1. Customer" +
-                "\n2. Employee" +
-                "\n3. TESTING FEATURE: Delete all accounts and transactions.");
+                "\n2. Employee");
+//                "\n3. TESTING FEATURE: Delete all accounts and transactions.");
 
         int employeeOrCustomerChoice = InputExceptionHandler.nextInt();
 
@@ -63,7 +63,7 @@ public class MenuOptions
         // Invalid entry
         else
         {
-            System.out.println("Invalid entry.");
+            System.out.println("Invalid entry.\n");
             welcomeMenu();
         }
     }
@@ -96,7 +96,8 @@ public class MenuOptions
         // Invalid entry
         else
         {
-            System.out.println("Invalid entry.");
+            System.out.println("Invalid entry.\n");
+            newOrExistingCustomerAccount();
         }
 
     }
@@ -130,7 +131,8 @@ public class MenuOptions
         // Invalid input
         else
         {
-            System.out.println("Invalid entry.");
+            System.out.println("Invalid entry.\n");
+            newOrExistingEmployeeAccount();
         }
     }
 

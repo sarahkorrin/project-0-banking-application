@@ -53,7 +53,8 @@ public class BankManagerOptionsMenu
                     System.out.println("Sorry, that customer does not exist.\n");
                 }
 
-            } else if (applicationOrCustomerAccount == 3)
+            }
+            else if (applicationOrCustomerAccount == 3)
             {
                 ArrayList<String> transactionsLog = loader.loadTransactions();
                 System.out.println("\n-----------------------------------------------------------------");
@@ -68,7 +69,8 @@ public class BankManagerOptionsMenu
                     }
                 }
                 System.out.println("-----------------------------------------------------------------\n");
-            } else if (applicationOrCustomerAccount == 4)
+            }
+            else if (applicationOrCustomerAccount == 4)  // Admin access
             {
                 System.out.println("Please enter security code for admin rights: ");
                 int adminAccess = InputExceptionHandler.nextInt();
@@ -92,7 +94,8 @@ public class BankManagerOptionsMenu
                     adminOpenCustomerAccount();
                 else
                     System.out.println("Invalid selection.\n");
-            } else if (applicationOrCustomerAccount == 7)
+            }
+            else if (applicationOrCustomerAccount == 7)
             {
                 if (bankManager.getBankManagerAccountType().equals("Admin"))
                     closeCustomerAccount();
